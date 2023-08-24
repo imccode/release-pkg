@@ -13,7 +13,7 @@ export const hasNotCache = async () => {
 
 /** 创建commit */
 export const createGitCommit = async (content: string) => {
-  await exec(`git commit -m ${content}`)
+  await exec(`git commit -m "${content}"`)
 }
 
 /** 创建分支 */

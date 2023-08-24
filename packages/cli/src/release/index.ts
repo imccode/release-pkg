@@ -1,6 +1,6 @@
 import { prompt } from 'prompts'
 import { commitRule } from './commitRule'
-import { addGitCache } from './git'
+import { addGitCache, createGitCommit, hasNotCache } from './git'
 
 export enum ReleaseVersionType {
   /** 正式版 */
@@ -45,8 +45,10 @@ export const inputCommit = async () => {
 }
 
 export const runRelease = async (options: RunReleaseOptions) => {
-  console.log(options)
-  await addGitCache()
-
-  console.log('完成')
+  const has = await hasNotCache()
+  if (has) {
+    await addGitCache()
+    const commitContent = await inputCommit()
+    await createGitCommit(commitContent)
+  }
 }

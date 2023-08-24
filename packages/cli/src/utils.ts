@@ -1,9 +1,9 @@
 import * as picocolors from 'picocolors'
-import { $ } from 'execa'
+import { execa } from 'execa'
 
 export const exec = async (command: string) => {
   try {
-    const res = await $`${command}`
+    const res = await execa(command, { shell: true })
     if (res.exitCode === 0) return Promise.resolve(res)
     return Promise.reject()
   } catch (error) {
