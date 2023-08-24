@@ -1,0 +1,22 @@
+
+# --- 不需要提交的目录
+node_modules/
+dist/
+!.vscode/
+!.engin/
+
+# --- 不需要提交的文件
+!.vscode/extensions.json
+.swc
+.idea
+
+# --- 不需要提交的任意包含后缀名为log的文件
+*.log
+
+# --- 排除系统文件
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?`

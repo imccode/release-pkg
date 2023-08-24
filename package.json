@@ -1,0 +1,31 @@
+{
+  "name": "release-pkg",
+  "version": "0.0.1",
+  "description": "npm发布、git提交一站式工具箱",
+  "main": "index.js",
+  "scripts": {
+    "cli": "pnpm run -C packages/cli",
+    "run:cli": "node ./packages/cli/dist/index.js"
+  },
+  "keywords": [],
+  "author": "ccode",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imccode/release-pkg"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=8"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-config-taro": "3.4.12",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "lint-staged": "^13.2.2",
+    "prettier": "2.7.1",
+    "typescript": "^5"
+  }
+}

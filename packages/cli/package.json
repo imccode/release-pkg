@@ -1,0 +1,30 @@
+{
+  "name": "release-pkg-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mod.js",
+  "scripts": {
+    "dev": "pnpm build --watch",
+    "build": "pnpm rollup --config rollup.config.ts --configPlugin typescript"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^16",
+    "@types/prompts": "^2.4.4",
+    "cac": "^6.7.14",
+    "execa": "^8.0.1",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2",
+    "tslib": "^2.6.2",
+    "rollup": "^3.24.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.1",
+    "typescript": "^5"
+  }
+}

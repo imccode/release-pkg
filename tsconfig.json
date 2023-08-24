@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveConstEnums": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "types": ["node_modules/@types"],
+    "lib": ["ESNext", "DOM"],
+    "resolvePackageJsonImports": true,
+    "allowJs": false,
+    "checkJs": false,
+    "typeRoots": ["node_modules/@types"]
+  },
+  "compileOnSave": false,
+  "exclude": ["node_modules/*", "dist/"]
+}
