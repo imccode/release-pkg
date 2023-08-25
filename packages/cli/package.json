@@ -1,6 +1,6 @@
 {
   "name": "release-pkg-cli",
-  "version": "0.0.1-beta.15",
+  "version": "0.0.1-beta.16",
   "description": "",
   "main": "dist/index.js",
   "scripts": {

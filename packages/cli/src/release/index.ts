@@ -1,6 +1,6 @@
-import { exec, getProjectPackage } from '../utils'
-import { createCommit, inputCommit } from './commit'
-import { addGitCache, createGitCommit, createGitTag, hasNotCache, removeGitTag, resetGitCommit } from './git'
+import { getProjectPackage } from '../utils'
+import { createCommit } from './commit'
+import { hasNotCache, removeGitTag, resetGitCommit } from './git'
 import { createTag } from './tag'
 import { ReleaseVersionType, createVersion, resetVersion, selectVersion } from './version'
 
