@@ -1,5 +1,5 @@
 import { ReleaseType } from "semver"
-import { exec, getProjectVersion } from "../utils"
+import { exec } from "../utils"
 import { createGitTag, getGitBranchList, getGitTagList, removeGitTag } from "./git"
 import { ReleaseVersionType } from "./version"
 

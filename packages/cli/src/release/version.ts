@@ -26,7 +26,7 @@ export const getVersionTypeName = (versionType: ReleaseVersionType) => {
 
 /** 选择版本 */
 export const selectVersion = async (versionType: ReleaseVersionType) => {
-  const curVersion = getProjectPackage<{version: string}>('packages/cli').version
+  const { version: curVersion } = await getProjectPackage<{ version: string }>('packages/cli')
   const versionData = semver.parse(curVersion)
   if (!versionData) return ''
 
@@ -105,7 +105,7 @@ export const selectVersion = async (versionType: ReleaseVersionType) => {
 /** 恢复版本 */
 export const resetVersion = async (oldVersion: string) => {
   const cwd = process.cwd()
-  const pkg = getProjectPackage('packages/cli')
+  const pkg = await getProjectPackage('packages/cli')
   pkg.version = oldVersion
 
   const pkgPath = resolve(cwd, 'packages/cli', 'package.json')
@@ -115,7 +115,7 @@ export const resetVersion = async (oldVersion: string) => {
 /** 创建版本 */
 export const createVersion = async (version: string) => {
   const cwd = process.cwd()
-  const pkg = getProjectPackage<{ version: string }>('packages/cli')
+  const pkg = await getProjectPackage<{ version: string }>('packages/cli')
   const oldVersion = pkg.version
 
   const newPkg = JSON.parse(JSON.stringify(pkg))

@@ -1,6 +1,7 @@
 import { getProjectPackage } from '../utils'
 import { createCommit } from './commit'
 import { hasNotCache, removeGitTag, resetGitCommit } from './git'
+import { pushData } from './push'
 import { createTag } from './tag'
 import { ReleaseVersionType, createVersion, resetVersion, selectVersion } from './version'
 
@@ -12,14 +13,14 @@ export const runRelease = async (options: RunReleaseOptions) => {
   const has = await hasNotCache()
   if (!has) return Promise.reject('无文件修改!')
 
-  const pkg = getProjectPackage<{ version: string }>('packages/cli')
+  const pkg = await getProjectPackage<{ version: string }>('packages/cli')
   let tagName = ''
   try {
     const version = await selectVersion(options.versionType)
     await createVersion(version)
     const commit = await createCommit()
     tagName = await createTag(version)
-    console.log(version, tagName, commit)
+    await pushData()
   } catch (error) {
     await resetVersion(pkg.version)
     await resetGitCommit()
