@@ -12,12 +12,15 @@ export const pushData = async () => {
       initial: true
     }
   ])
-
   if (!value) return
+
+  const chalkAnimation = rainbow('推送本地数据到远程GIT服务器中...')
   try {
-    rainbow('推送本地数据到远程GIT服务器中...')
+    chalkAnimation.start()
     await pushGitData()
   } catch (error) {
+    chalkAnimation.stop()
+    chalkAnimation.replace('')
     console.log('1111111', error)
   }
 }
