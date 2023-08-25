@@ -1,4 +1,6 @@
+import prompts from 'prompts'
 import * as picocolors from 'picocolors'
+import { hasNotCache } from './git'
 
 /** git commit 消息规则 */
 export const commitRule = [
@@ -42,4 +44,40 @@ export const checkCommitRule = (str?: string, showTip?: boolean) => {
   if (!isConform && showTip) showCommitRule(str)
 
   return isConform
+}
+
+/** 输入commit内容 */
+export const inputCommit = async () => {
+  const res = await prompts([
+    {
+      type: 'select',
+      name: 'prefix',
+      message: '请选择Commit类型',
+      choices: commitRule.map(item => ({
+        title: `${item.emoji} ${item.prefix} \t${item.desc}`,
+        description: '按空格、回车键选中',
+        value: item.prefix
+      }))
+    },
+    {
+      type: 'text',
+      name: 'content',
+      message: '请输入Commit内容',
+      validate(value) {
+        console.log(value)
+        if (!value) return 'Commit内容不能为空'
+        return true
+      }
+    }
+  ])
+  return res.prefix + ': ' + res.content
+}
+
+export const createCommit = async () => {
+  // if (has) {
+  //   await exec('git add .')
+  //   const commitContent = await inputCommit()
+  //   await createGitCommit(commitContent)
+  // }
+  
 }

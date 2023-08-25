@@ -1,6 +1,8 @@
+import * as picocolors from 'picocolors'
 import { CAC } from 'cac'
-import { ReleaseVersionType, runRelease } from './release'
-const pkg = require('../package.json')
+import { runRelease } from './release'
+import { version } from '../package.json'
+import { ReleaseVersionType } from './release/version'
 
 const cli = new CAC('pkg-cli')
 cli.usage('命令行工具')
@@ -11,7 +13,8 @@ cli
   .option('-a, --alpha', '内部测试版')
   .option('-b, --beta', '公开测试版')
   .option('-r, --rc', '稳定候选版')
-  .action(options => {
+  .allowUnknownOptions()
+  .action(async options => {
     let versionType = ReleaseVersionType.ALPHA
     if (options.officaial) {
       versionType = ReleaseVersionType.OFFICAIAL
@@ -19,12 +22,18 @@ cli
       versionType = ReleaseVersionType.RC
     } else if (options.beta) {
       versionType = ReleaseVersionType.BETA
+    } else if (options.alpha) {
+      versionType = ReleaseVersionType.ALPHA
     } else {
       cli.outputHelp()
       return
     }
 
-    runRelease({ versionType })
+    try {
+      await runRelease({ versionType })
+    } catch (error) {
+      console.log(picocolors.white(picocolors.bgRed('\nERROR:\n')) + picocolors.red(error))
+    }
   })
 
-cli.version(pkg.version).help().parse()
+cli.version(version).help().parse()

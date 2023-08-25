@@ -1,8 +1,8 @@
 {
   "name": "release-pkg-cli",
-  "version": "1.0.0",
+  "version": "0.0.1-beta.2",
   "description": "",
-  "main": "mod.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "pnpm build --watch",
     "build": "pnpm rollup --config rollup.config.ts --configPlugin typescript"
@@ -15,10 +15,12 @@
   "devDependencies": {
     "@types/node": "^16",
     "@types/prompts": "^2.4.4",
+    "@types/semver": "^7.5.0",
     "cac": "^6.7.14",
     "execa": "^8.0.1",
     "picocolors": "^1.0.0",
     "prompts": "^2.4.2",
+    "semver": "^7.5.4",
     "tslib": "^2.6.2",
     "rollup": "^3.24.0",
     "@rollup/plugin-commonjs": "^25.0.0",

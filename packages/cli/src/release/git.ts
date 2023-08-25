@@ -24,7 +24,7 @@ export const createGitBranch = async (branchName: string) => {
 /** 获取分支列表 */
 export const getGitBranchList = async () => {
   const res = await exec('git branch --list')
-  return res.stdout.split('\n')
+  return res.stdout.split('\n').filter(v => !!v)
 }
 
 /** 获取分支 */
@@ -39,13 +39,13 @@ export const pushGitBranch = async (branchName?: string) => {
 
 /** 创建标签 */
 export const createGitTag = async (tagName: string) => {
-  await exec(`git tag ${tagName}`)
+  await exec(`git tag v${tagName}`)
 }
 
 /** 获取标签列表 */
 export const getGitTagList = async () => {
   const res = await exec('git tag')
-  return res.stdout.split('\n')
+  return res.stdout.split('\n').filter(v => !!v)
 }
 
 /** 获取最后一个标签 */
