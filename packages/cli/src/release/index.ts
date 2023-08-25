@@ -11,7 +11,7 @@ interface RunReleaseOptions {
 
 export const runRelease = async (options: RunReleaseOptions) => {
   const has = await hasNotCache()
-  if (!has) return Promise.reject(new Error('无文件修改!'))
+  if (!has) return Promise.reject('无文件修改!')
 
   const version = await selectVersion(options.versionType)
 

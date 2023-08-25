@@ -32,7 +32,7 @@ cli
     try {
       await runRelease({ versionType })
     } catch (error) {
-      console.log(picocolors.white(picocolors.bgRed('\nERROR:\n')) + picocolors.red(error))
+      console.log(picocolors.red(picocolors.bold('\nERROR:\n')) + picocolors.red(error))
     }
   })
 
