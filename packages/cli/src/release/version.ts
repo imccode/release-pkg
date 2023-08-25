@@ -1,6 +1,8 @@
 import semver, { ReleaseType } from 'semver'
 import prompts from 'prompts'
-import { getProjectVersion } from '../utils'
+import { getProjectPackage } from '../utils'
+import { resolve } from 'path'
+import { writeFile } from 'fs/promises'
 
 export enum ReleaseVersionType {
   /** 正式版 */
@@ -24,7 +26,7 @@ export const getVersionTypeName = (versionType: ReleaseVersionType) => {
 
 /** 选择版本 */
 export const selectVersion = async (versionType: ReleaseVersionType) => {
-  const curVersion = getProjectVersion('packages/cli')
+  const curVersion = getProjectPackage<{version: string}>('packages/cli').version
   const versionData = semver.parse(curVersion)
   if (!versionData) return ''
 
@@ -99,3 +101,33 @@ export const selectVersion = async (versionType: ReleaseVersionType) => {
   ])
   return res.version as string
 }
+
+/** 恢复版本 */
+export const resetVersion = async (oldVersion: string) => {
+  const cwd = process.cwd()
+  const pkg = getProjectPackage('packages/cli')
+  pkg.version = oldVersion
+
+  const pkgPath = resolve(cwd, 'packages/cli', 'package.json')
+  await writeFile(pkgPath, JSON.stringify(pkg, null, 2))
+}
+
+/** 创建版本 */
+export const createVersion = async (version: string) => {
+  const cwd = process.cwd()
+  const pkg = getProjectPackage<{ version: string }>('packages/cli')
+  const oldVersion = pkg.version
+
+  const newPkg = JSON.parse(JSON.stringify(pkg))
+  newPkg.version = version
+
+  const pkgPath = resolve(cwd, 'packages/cli', 'package.json')
+  try {
+    await writeFile(pkgPath, JSON.stringify(newPkg, null, 2))
+  } catch (error) {
+    await createVersion(oldVersion)
+    return Promise.reject(error)
+  }
+}
+
+

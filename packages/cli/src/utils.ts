@@ -1,5 +1,6 @@
 import { execa } from 'execa'
 import { resolve } from 'path'
+import { JsonType } from './types'
 
 export const exec = async (command: string) => {
   try {
@@ -11,10 +12,10 @@ export const exec = async (command: string) => {
   }
 }
 
-/** 获取项目版本 */
-export const getProjectVersion = (projectDir?: string) => {
+/** 获取项目package.json内容 */
+export const getProjectPackage = <T extends JsonType = JsonType>(projectDir?: string) => {
   const cwd = process.cwd()
   const pkgPath = resolve(cwd, projectDir || '', 'package.json')
   const pkgJson = require(pkgPath)
-  return pkgJson.version || ''
+  return pkgJson as T
 }

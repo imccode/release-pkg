@@ -10,10 +10,11 @@ export default defineConfig({
     nodeResolve({ moduleDirectories: ['node_modules'] }),
     commonjs({ include: [/\/node_modules\//], extensions: ['.ts', '.js'] }),
     json(),
-    typescript({ sourceMap: false })
+    typescript({ sourceMap: true })
   ],
   output: {
     dir: 'dist',
-    format: 'cjs'
+    format: 'cjs',
+    sourcemap: true
   }
 })

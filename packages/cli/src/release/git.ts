@@ -5,6 +5,11 @@ export const addGitCache = async () => {
   await exec('git add .')
 }
 
+/** 取消git文件暂存 */
+export const resetGitCache = async () => {
+  await exec('git reset HEAD -- .')
+}
+
 /** 是否存在未缓存的文件 */
 export const hasNotCache = async () => {
   const res = await exec('git status -s')
@@ -14,6 +19,11 @@ export const hasNotCache = async () => {
 /** 创建commit */
 export const createGitCommit = async (content: string) => {
   await exec(`git commit -m "${content}"`)
+}
+
+/** 取消commit */
+export const resetGitCommit = async () => {
+  await exec('git reset HEAD^')
 }
 
 /** 创建分支 */
@@ -39,7 +49,7 @@ export const pushGitBranch = async (branchName?: string) => {
 
 /** 创建标签 */
 export const createGitTag = async (tagName: string) => {
-  await exec(`git tag v${tagName}`)
+  await exec(`git tag ${tagName}`)
 }
 
 /** 获取标签列表 */
@@ -56,10 +66,7 @@ export const getGitLastTag = async () => {
 
 /** 删除标签 */
 export const removeGitTag = async (tagName: string) => {
-  const tags = await getGitTagList()
-  if (tags.includes(tagName)) {
-    await exec(`git tag -d ${tagName}`)
-  }
+  await exec(`git tag -d ${tagName}`)
 }
 
 /**

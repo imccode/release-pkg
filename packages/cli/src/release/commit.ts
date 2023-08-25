@@ -1,6 +1,7 @@
-import prompts from 'prompts'
 import * as picocolors from 'picocolors'
-import { hasNotCache } from './git'
+import prompts from 'prompts'
+import { exec } from '../utils'
+import { createGitCommit, resetGitCache, resetGitCommit } from './git'
 
 /** git commit 消息规则 */
 export const commitRule = [
@@ -73,11 +74,23 @@ export const inputCommit = async () => {
   return res.prefix + ': ' + res.content
 }
 
+/** 创建commit */
 export const createCommit = async () => {
-  // if (has) {
-  //   await exec('git add .')
-  //   const commitContent = await inputCommit()
-  //   await createGitCommit(commitContent)
-  // }
-  
+  try {
+    await exec('git add .')
+  } catch (error) {
+    await resetGitCache()
+    return Promise.reject(error)
+  }
+
+  try {
+    const commitContent = await inputCommit()
+    await createGitCommit(commitContent)
+    return commitContent
+  } catch (error) {
+    await resetGitCommit()
+    return Promise.reject(error)
+  }
 }
+
+
