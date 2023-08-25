@@ -1,7 +1,4 @@
-import { ReleaseType } from "semver"
-import { exec } from "../utils"
-import { createGitTag, getGitBranchList, getGitTagList, removeGitTag } from "./git"
-import { ReleaseVersionType } from "./version"
+import { createGitTag, removeGitTag } from "./git"
 
 /** 创建标签 */
 export const createTag = async (version: string) => {
