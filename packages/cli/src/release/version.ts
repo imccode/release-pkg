@@ -1,8 +1,8 @@
-import semver, { ReleaseType } from 'semver'
-import prompts from 'prompts'
-import { getProjectPackage } from '../utils'
-import { resolve } from 'path'
 import { writeFile } from 'fs/promises'
+import { resolve } from 'path'
+import prompts from 'prompts'
+import semver from 'semver'
+import { getProjectPackage } from '../utils'
 
 export enum ReleaseVersionType {
   /** 正式版 */

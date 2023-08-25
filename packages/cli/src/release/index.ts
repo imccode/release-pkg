@@ -18,7 +18,7 @@ export const runRelease = async (options: RunReleaseOptions) => {
   try {
     const version = await selectVersion(options.versionType)
     await createVersion(version)
-    const commit = await createCommit()
+    await createCommit()
     tagName = await createTag(version)
     await pushData()
   } catch (error) {

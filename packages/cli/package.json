@@ -1,6 +1,6 @@
 {
   "name": "release-pkg-cli",
-  "version": "0.0.1-beta.17",
+  "version": "0.0.1-beta.18",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -16,11 +16,13 @@
     "@types/node": "^16",
     "@types/prompts": "^2.4.4",
     "@types/semver": "^7.5.0",
+    "@types/chalk-animation": "^1.6.1",
     "cac": "^6.7.14",
     "execa": "^8.0.1",
     "picocolors": "^1.0.0",
     "prompts": "^2.4.2",
     "semver": "^7.5.4",
+    "chalk-animation": "^2.0.3",
     "tslib": "^2.6.2",
     "rollup": "^3.24.0",
     "@rollup/plugin-commonjs": "^25.0.0",
