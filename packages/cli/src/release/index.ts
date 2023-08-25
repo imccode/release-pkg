@@ -20,7 +20,7 @@ export const runRelease = async (options: RunReleaseOptions) => {
     await createVersion(version)
     await createCommit()
     tagName = await createTag(version)
-    await pushData()
+    await pushData(tagName)
   } catch (error) {
     await resetVersion(pkg.version)
     await resetGitCommit()
