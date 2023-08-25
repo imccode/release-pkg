@@ -39,12 +39,56 @@ export const selectVersion = async (versionType: ReleaseVersionType) => {
     const minorVersion = semver.inc(simpVersion, 'minor') || ''
     const majorVersion = semver.inc(simpVersion, 'major') || ''
 
-    const res = await prompts([
+    const res = await prompts(
+      [
+        {
+          type: 'select',
+          name: 'version',
+          message: `请选择修订的${versionTypeName}`,
+          choices: [
+            {
+              title: `补丁版本 - Patch(${patchVersion})`,
+              value: patchVersion,
+              description: versionTypeName
+            },
+            {
+              title: `次要版本 - Minor(${minorVersion})`,
+              value: minorVersion,
+              description: versionTypeName
+            },
+            {
+              title: `主要版本 - Major(${majorVersion})`,
+              value: majorVersion,
+              description: versionTypeName
+            }
+          ]
+        }
+      ],
+      {
+        onCancel() {
+          process.exit(-1)
+        }
+      }
+    )
+    return res.version as string
+  }
+
+  const increVersion = simpVersion + `-${versionType}.` + identifierVersion
+  const patchVersion = semver.inc(simpVersion, 'prepatch', versionType, false) || '' + identifierVersion
+  const minorVersion = semver.inc(simpVersion, 'preminor', versionType, false) || '' + identifierVersion
+  const majorVersion = semver.inc(simpVersion, 'premajor', versionType, false) || '' + identifierVersion
+  const res = await prompts(
+    [
       {
         type: 'select',
         name: 'version',
         message: `请选择修订的${versionTypeName}`,
         choices: [
+          {
+            title: `增量版本 - Incre(${increVersion})`,
+            value: increVersion,
+            description: versionTypeName
+          },
           {
             title: `补丁版本 - Patch(${patchVersion})`,
             value: patchVersion,
@@ -62,43 +106,13 @@ export const selectVersion = async (versionType: ReleaseVersionType) => {
           }
         ]
       }
-    ])
-    return res.version as string
-  }
-
-  const increVersion = simpVersion + `-${versionType}.` + identifierVersion
-  const patchVersion = semver.inc(simpVersion, 'prepatch', versionType, false) || '' + identifierVersion
-  const minorVersion = semver.inc(simpVersion, 'preminor', versionType, false) || '' + identifierVersion
-  const majorVersion = semver.inc(simpVersion, 'premajor', versionType, false) || '' + identifierVersion
-  const res = await prompts([
+    ],
     {
-      type: 'select',
-      name: 'version',
-      message: `请选择修订的${versionTypeName}`,
-      choices: [
-        {
-          title: `增量版本 - Incre(${increVersion})`,
-          value: increVersion,
-          description: versionTypeName
-        },
-        {
-          title: `补丁版本 - Patch(${patchVersion})`,
-          value: patchVersion,
-          description: versionTypeName
-        },
-        {
-          title: `次要版本 - Minor(${minorVersion})`,
-          value: minorVersion,
-          description: versionTypeName
-        },
-        {
-          title: `主要版本 - Major(${majorVersion})`,
-          value: majorVersion,
-          description: versionTypeName
-        }
-      ]
+      onCancel() {
+        process.exit(-1)
+      }
     }
-  ])
+  )
   return res.version as string
 }
 

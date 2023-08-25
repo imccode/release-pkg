@@ -70,7 +70,11 @@ export const inputCommit = async () => {
         return true
       }
     }
-  ])
+  ], {
+    onCancel() {
+      process.exit(-1)
+    }
+  })
   return res.prefix + ': ' + res.content
 }
 
@@ -85,7 +89,6 @@ export const createCommit = async () => {
 
   try {
     const commitContent = await inputCommit()
-    if (!commitContent) process.exit(-1)
     await createGitCommit(commitContent)
     return commitContent
   } catch (error) {

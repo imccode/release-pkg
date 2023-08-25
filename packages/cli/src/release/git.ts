@@ -73,3 +73,16 @@ export const removeGitTag = async (tagName: string) => {
 export const pushGitData = async () => {
   await exec('git push')
 }
+
+/**
+ * 推送标签
+ *
+ * - `tagName` 标签名，不传标签名即推送本地所有标签
+ */
+export const pushGitTag = async (tagName?: string) => {
+  if (!tagName) {
+    await exec('git push origin --tags')
+  } else {
+    await exec(`git push origin ${tagName}`)
+  }
+}
