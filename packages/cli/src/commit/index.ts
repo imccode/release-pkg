@@ -1,9 +1,18 @@
 import * as picocolors from 'picocolors'
 import type { CAC } from 'cac'
-import { exec } from '../utils'
+import type { Animation } from 'chalk-animation'
+import chalkAnimation from 'chalk-animation'
 import { commitRule } from './rule'
-import { addModifyToCache, getModifyList, removeModifyCache } from './utils'
-import { inputCommit } from './prompt'
+import {
+  addCommit,
+  addModifyToCache,
+  getCurrentCommitId,
+  getModifyList,
+  pushCommit,
+  removeCommit,
+  removeModifyCache
+} from './utils'
+import { confirmPushCommit, inputCommit } from './prompt'
 
 export { inputCommit } from './prompt'
 export { commitRule } from './rule'
@@ -25,7 +34,12 @@ export const validateCommitRule = (content: string) => {
 }
 
 /** 创建commit */
-export const createCommit = async (commitContent: string) => {
+export const createCommit = async (content: string) => {
+  const modifyList = await getModifyList()
+  if (modifyList.length < 1) {
+    return Promise.reject(new Error('无文件改动'))
+  }
+
   try {
     await addModifyToCache()
   } catch (error) {
@@ -34,28 +48,38 @@ export const createCommit = async (commitContent: string) => {
   }
 
   try {
-    await exec(`git commit -m "${commitContent}"`)
-    return commitContent
+    const id = await addCommit(content)
+    return id
   } catch (error) {
-    await exec('git reset HEAD -- .')
+    await removeCommit()
     return Promise.reject(error)
   }
 }
 
-// export const 
+// export const
 
 /** git commit cli */
 export const commandCommit = (cli: CAC) => {
-  cli.command('commit', '创建Git Commit').allowUnknownOptions().action(async () => {
-    try {
-      const modifyList = await getModifyList()
-      if (modifyList.length < 1) {
-        throw new Error('无文件改动')
+  cli
+    .command('commit', '创建Git Commit')
+    .allowUnknownOptions()
+    .action(async () => {
+      let rainbow: Animation | null = null
+      try {
+        const commitContent = await inputCommit()
+        const commitId = await createCommit(commitContent)
+        console.log('✅ 创建Git Commit成功！')
+        const isPush = await confirmPushCommit()
+        if (isPush) {
+          await pushCommit(commitId)
+          rainbow = chalkAnimation.rainbow('🚀 推送本地数据到远程GIT服务器...')
+          rainbow.start()
+          console.log('✅ 推送成功！')
+          rainbow.stop()
+        }
+      } catch (error) {
+        rainbow?.stop()
+        console.log(picocolors.red(picocolors.bold('\nERROR:\n')) + picocolors.red(error))
       }
-      const commitContent = await inputCommit()
-      await createCommit(commitContent)
-    } catch (error) {
-      console.log(picocolors.red(picocolors.bold('\nERROR:\n')) + picocolors.red(error))
-    }
-  })
+    })
 }

@@ -35,3 +35,46 @@ export const getModifyList = async () => {
     return Promise.reject(new Error(error))
   }
 }
+
+/** 获取当前commitId */
+export const getCurrentCommitId = async () => {
+  try {
+    const { stdout } = await exec('git rev-parse HEAD')
+    return stdout.trim()
+  } catch (error) {
+    return Promise.reject(new Error('获取当前Commit ID失败'))
+  }
+}
+
+/** 添加Git Commit */
+export const addCommit = async (content: string) => {
+  try {
+    await exec(`git commit -m "${content}"`)
+    return await getCurrentCommitId()
+  } catch (error) {
+    return Promise.reject(new Error('添加Git Commit失败'))
+  }
+}
+
+/** 移除Git Commit */
+export const removeCommit = async (commitId?: string) => {
+  try {
+    if (commitId) {
+      await exec(`git reset --hard ${commitId}`)
+    } else {
+      await exec('git reset HEAD^')
+    }
+  } catch (error) {
+    return Promise.reject(new Error('移除Git Commit失败'))
+  }
+}
+
+/** 推送Git Commit */
+export const pushCommit = async (commitId: string) => {
+  try {
+    const { stdout } = await exec('git symbolic-ref --short HEAD')
+    await exec(`git push origin ${commitId}:${stdout.trim()}`)
+  } catch (error) {
+    return Promise.reject(new Error('创建Git Commit失败'))
+  }
+}

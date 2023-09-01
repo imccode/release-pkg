@@ -34,3 +34,23 @@ export const inputCommit = async () => {
   )
   return res.prefix + ': ' + res.content
 }
+
+/** 确认是否推送commit */
+export const confirmPushCommit = async () => {
+  const { value } = await prompts(
+    [
+      {
+        type: 'confirm',
+        name: 'value',
+        message: '推送Commit到Git远程服务器',
+        initial: true
+      }
+    ],
+    {
+      onCancel() {
+        process.exit(-1)
+      }
+    }
+  )
+  return !!value
+}
