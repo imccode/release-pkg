@@ -3,9 +3,12 @@ import { CAC } from 'cac'
 import { runRelease } from './release'
 import { version } from '../package.json'
 import { ReleaseVersionType } from './release/version'
+import { commandCommit } from './commit'
 
 const cli = new CAC('pkg-cli')
 cli.usage('命令行工具')
+
+commandCommit(cli)
 
 cli
   .command('release', '创建发布版本')
