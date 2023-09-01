@@ -32,14 +32,17 @@ export const removeModifyCache = async () => {
 export const getModifyList = async () => {
   try {
     const { stdout } = await exec('git status -s')
-    return stdout.split('\n').map(str => {
-      const [mark, file] = str
-        .trimStart()
-        .split(' ')
-        .filter(v => !!v)
-      const findData = fileModifyRule.find(item => mark.startsWith(item.type))
-      return { type: mark, typeName: findData?.name || '未知', file }
-    })
+    return stdout
+      .split('\n')
+      .filter(v => !!v)
+      .map(str => {
+        const [mark, file] = str
+          .trimStart()
+          .split(' ')
+          .filter(v => !!v)
+        const findData = fileModifyRule.find(item => mark.startsWith(item.type))
+        return { type: mark, typeName: findData?.name || '未知', file }
+      })
   } catch (error) {
     return Promise.reject(new Error(error))
   }
@@ -60,7 +63,10 @@ export const hasRemoteBranch = async (name: string) => {
   try {
     await gitFetch()
     const { stdout } = await exec('git branch --remote')
-    return stdout.split('\n').some(str => str.trim() === `origin/${name}`)
+    return stdout
+      .split('\n')
+      .filter(v => !!v)
+      .some(str => str.trim() === `origin/${name}`)
   } catch (error) {
     return Promise.reject(new Error('判断远程Git仓库是否存在指定分支失败'))
   }
