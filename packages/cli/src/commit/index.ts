@@ -57,8 +57,6 @@ export const createCommit = async (content: string) => {
   }
 }
 
-// export const
-
 /** git commit cli */
 export const commandCommit = (cli: CAC) => {
   cli
