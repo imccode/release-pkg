@@ -52,8 +52,8 @@ export const commandCommit = (cli: CAC) => {
       let rainbow: Animation | null = null
       try {
         const hasModify = await hasFileModify()
-        if (!hasModify) return Promise.reject(new Error('无文件改动'))
-        
+        if (!hasModify) throw new Error('无文件改动')
+
         const commitContent = await inputCommit()
         await createCommit(commitContent)
         const isPush = await confirmPushCommit()
