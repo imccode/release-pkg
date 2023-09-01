@@ -36,7 +36,8 @@
     "picocolors": "^1.0.0",
     "prompts": "^2.4.2",
     "semver": "^7.5.4",
-    "chalk-animation": "^2.0.3"
+    "chalk-animation": "^2.0.3",
+    "glob": "^10.3.4"
   },
   "devDependencies": {
     "@types/node": "^16",

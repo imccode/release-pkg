@@ -10,7 +10,7 @@ export const selectVersionType = async () => {
         name: 'type',
         message: '请选择版本类型',
         choices: releaseVersionRule.map(item => ({
-          title: `${item.emoji} ${item.name}`,
+          title: `${item.emoji} ${item.name}(${item.type})`,
           description: '按空格、回车键选中',
           value: item.type
         }))

@@ -8,6 +8,7 @@ import { addCommit, addModifyToCache, hasFileModify, pushBranchCommit, removeCom
 
 export { inputCommit } from './prompt'
 export { commitRule } from './rule'
+export * from './utils'
 
 /** 显示git commit 内容规则 */
 export const showCommitRule = () => {
