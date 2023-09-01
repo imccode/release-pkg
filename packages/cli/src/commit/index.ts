@@ -8,6 +8,7 @@ import {
   addModifyToCache,
   getCurrentCommitId,
   getModifyList,
+  hasRemoteBranch,
   pushCommit,
   removeCommit,
   removeModifyCache

@@ -59,8 +59,8 @@ export const getCurrentBranch = async () => {
 export const hasRemoteBranch = async (name: string) => {
   try {
     await gitFetch()
-    const { stdout } = await exec(`git rev-parse --verify --quiet refs/heads/${name}`)
-    return !!stdout.trim()
+    const { stdout } = await exec('git branch --remote')
+    return stdout.split('\n').some(str => str.trim() === `origin/${name}`)
   } catch (error) {
     return Promise.reject(new Error('判断远程Git仓库是否存在指定分支失败'))
   }
@@ -102,8 +102,12 @@ export const removeCommit = async (commitId?: string) => {
 /** 推送Git Commit */
 export const pushCommit = async (commitId: string) => {
   try {
-    const { stdout } = await exec('git symbolic-ref --short HEAD')
-    await exec(`git push origin ${commitId}:${stdout.trim()}`)
+    const branchName = await getCurrentBranch()
+    if (await hasRemoteBranch(branchName)) {
+      await exec(`git push origin ${commitId}:${branchName}`)
+    } else {
+      await exec(`git push --set-upstream origin ${branchName}`)
+    }
   } catch (error) {
     return Promise.reject(new Error('创建Git Commit失败'))
   }
