@@ -68,14 +68,15 @@ export const commandCommit = (cli: CAC) => {
       try {
         const commitContent = await inputCommit()
         const commitId = await createCommit(commitContent)
-        console.log('✅ 创建Git Commit成功！')
         const isPush = await confirmPushCommit()
         if (isPush) {
           await pushCommit(commitId)
           rainbow = chalkAnimation.rainbow('🚀 推送本地数据到远程GIT服务器...')
           rainbow.start()
-          console.log('✅ 推送成功！')
+          console.log('✅ 创建Git Commit并推送成功！')
           rainbow.stop()
+        } else {
+          console.log('✅ 创建Git Commit成功！')
         }
       } catch (error) {
         rainbow?.stop()
