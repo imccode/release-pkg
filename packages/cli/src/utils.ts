@@ -2,7 +2,6 @@
 import { execa } from 'execa'
 import { resolve } from 'path'
 import { JsonType } from './types'
-import { type } from 'os'
 
 export const exec = async (command: string) => {
   try {

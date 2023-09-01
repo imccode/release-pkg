@@ -21,8 +21,7 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "outDir": "./dist",
-    "lib": ["ESNext", "DOM"],
-    "resolvePackageJsonImports": true,
+    "lib": ["ESNext"],
     "allowJs": false,
     "checkJs": false,
     "typeRoots": ["node_modules/@types"]
