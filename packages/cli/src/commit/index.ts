@@ -73,8 +73,8 @@ export const commandCommit = (cli: CAC) => {
           rainbow = chalkAnimation.rainbow('🚀 推送本地数据到远程GIT服务器...')
           rainbow.start()
           await pushCommit(commitId)
-          console.log('✅ 创建Git Commit并推送成功！')
           rainbow.stop()
+          console.log('✅ 创建Git Commit并推送成功！')
         } else {
           console.log('✅ 创建Git Commit成功！')
         }

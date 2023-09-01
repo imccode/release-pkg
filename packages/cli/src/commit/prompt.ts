@@ -43,7 +43,7 @@ export const confirmPushCommit = async () => {
         type: 'confirm',
         name: 'value',
         message: '推送Commit到Git远程服务器',
-        initial: false
+        initial: true
       }
     ],
     {
