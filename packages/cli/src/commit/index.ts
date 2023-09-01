@@ -1,19 +1,17 @@
-import * as picocolors from 'picocolors'
 import type { CAC } from 'cac'
 import type { Animation } from 'chalk-animation'
 import chalkAnimation from 'chalk-animation'
+import * as picocolors from 'picocolors'
+import { confirmPushCommit, inputCommit } from './prompt'
 import { commitRule } from './rule'
 import {
   addCommit,
   addModifyToCache,
-  getCurrentCommitId,
   getModifyList,
-  hasRemoteBranch,
-  pushCommit,
+  pushBranchCommit,
   removeCommit,
   removeModifyCache
 } from './utils'
-import { confirmPushCommit, inputCommit } from './prompt'
 
 export { inputCommit } from './prompt'
 export { commitRule } from './rule'
@@ -66,12 +64,12 @@ export const commandCommit = (cli: CAC) => {
         }
 
         const commitContent = await inputCommit()
-        const commitId = await createCommit(commitContent)
+        await createCommit(commitContent)
         const isPush = await confirmPushCommit()
         if (isPush) {
           rainbow = chalkAnimation.rainbow('🚀 推送本地数据到远程GIT服务器...')
           rainbow.start()
-          await pushCommit(commitId)
+          await pushBranchCommit()
           rainbow.stop()
           console.log('✅ 创建Git Commit并推送成功！')
         } else {

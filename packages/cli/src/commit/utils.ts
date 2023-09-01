@@ -99,16 +99,16 @@ export const removeCommit = async (commitId?: string) => {
   }
 }
 
-/** 推送Git Commit */
-export const pushCommit = async (commitId: string) => {
+/** 推送数据到Git远程服务器 */
+export const pushBranchCommit = async () => {
   try {
     const branchName = await getCurrentBranch()
     if (await hasRemoteBranch(branchName)) {
-      await exec(`git push origin ${commitId}:${branchName}`)
+      await exec(`git push`)
     } else {
       await exec(`git push --set-upstream origin ${branchName}`)
     }
   } catch (error) {
-    return Promise.reject(new Error('创建Git Commit失败'))
+    return Promise.reject(new Error('推送数据到Git远程服务器失败'))
   }
 }
