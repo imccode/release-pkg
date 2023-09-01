@@ -2,7 +2,6 @@ import * as picocolors from 'picocolors'
 import prompts from 'prompts'
 import { exec } from '../utils'
 import { createGitCommit, resetGitCache, resetGitCommit } from './git'
-import { getModifyList } from '../commit/utils'
 
 /** git commit 消息规则 */
 export const commitRule = [
@@ -81,11 +80,6 @@ export const inputCommit = async () => {
 
 /** 创建commit */
 export const createCommit = async (commitContent: string) => {
-  const modifyList = await getModifyList()
-  if (modifyList.length < 1) {
-    return Promise.reject(new Error('无文件改动'))
-  }
-
   try {
     await exec('git add .')
   } catch (error) {
