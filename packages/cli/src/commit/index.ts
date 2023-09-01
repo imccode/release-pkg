@@ -4,14 +4,7 @@ import chalkAnimation from 'chalk-animation'
 import * as picocolors from 'picocolors'
 import { confirmPushCommit, inputCommit } from './prompt'
 import { commitRule } from './rule'
-import {
-  addCommit,
-  addModifyToCache,
-  getModifyList,
-  pushBranchCommit,
-  removeCommit,
-  removeModifyCache
-} from './utils'
+import { addCommit, addModifyToCache, hasFileModify, pushBranchCommit, removeCommit, removeModifyCache } from './utils'
 
 export { inputCommit } from './prompt'
 export { commitRule } from './rule'
@@ -58,11 +51,9 @@ export const commandCommit = (cli: CAC) => {
     .action(async () => {
       let rainbow: Animation | null = null
       try {
-        const modifyList = await getModifyList()
-        if (modifyList.length < 1) {
-          return Promise.reject(new Error('无文件改动'))
-        }
-
+        const hasModify = await hasFileModify()
+        if (!hasModify) return Promise.reject(new Error('无文件改动'))
+        
         const commitContent = await inputCommit()
         await createCommit(commitContent)
         const isPush = await confirmPushCommit()

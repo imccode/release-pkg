@@ -28,23 +28,13 @@ export const removeModifyCache = async () => {
   }
 }
 
-/** 获取改动的文件信息 */
-export const getModifyList = async () => {
+/** 是否存在文件改动 */
+export const hasFileModify = async () => {
   try {
     const { stdout } = await exec('git status -s')
-    return stdout
-      .split('\n')
-      .filter(v => !!v)
-      .map(str => {
-        const [mark, file] = str
-          .trimStart()
-          .split(' ')
-          .filter(v => !!v)
-        const findData = fileModifyRule.find(item => mark.startsWith(item.type))
-        return { type: mark, typeName: findData?.name || '未知', file }
-      })
+    return !!stdout.trim()
   } catch (error) {
-    return Promise.reject(new Error(error))
+    return Promise.reject(new Error('是否存在文件改动失败'))
   }
 }
 
