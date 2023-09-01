@@ -36,11 +36,6 @@ export const validateCommitRule = (content: string) => {
 
 /** 创建commit */
 export const createCommit = async (content: string) => {
-  const modifyList = await getModifyList()
-  if (modifyList.length < 1) {
-    return Promise.reject(new Error('无文件改动'))
-  }
-
   try {
     await addModifyToCache()
   } catch (error) {
@@ -65,6 +60,11 @@ export const commandCommit = (cli: CAC) => {
     .action(async () => {
       let rainbow: Animation | null = null
       try {
+        const modifyList = await getModifyList()
+        if (modifyList.length < 1) {
+          return Promise.reject(new Error('无文件改动'))
+        }
+
         const commitContent = await inputCommit()
         const commitId = await createCommit(commitContent)
         const isPush = await confirmPushCommit()
