@@ -55,7 +55,7 @@ export const projectList = async () => {
       for (let i = 0; i < list.length; i++) {
         const pkgPath = list[i]
         const pkgInfo = await getPackageInfo(pkgPath)
-        if (pkgInfo) {
+        if (pkgInfo && pkgInfo.private !== true) {
           pkgList.push({ pkgInfo, absDir: resolve(cwd, pkgPath) })
         }
       }

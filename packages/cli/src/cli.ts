@@ -5,6 +5,7 @@ import { version } from '../package.json'
 import { ReleaseVersionType } from './release/version'
 import { commandCommit } from './commit'
 import { commandPublish } from './publish'
+import { projectList } from './workspaces'
 
 const cli = new CAC('pkg-cli')
 cli.usage('命令行工具')
