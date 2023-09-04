@@ -10,6 +10,18 @@ export const gitFetch = async () => {
   }
 }
 
+export const modifyProjectList = async (projectNames: string[]) => {
+  const { stdout } = await exec('git status -s')
+  const list = stdout
+    .trim()
+    .split('\n')
+    .map(str => str.trim().split(' ')[1])
+    .filter(v => !!v)
+  return projectNames.filter(name =>
+    list.some(filename => filename.startsWith(name) || (name === 'root' && filename.indexOf('packages') < 0))
+  )
+}
+
 /** 添加改动文件到暂存区 */
 export const addModifyToCache = async () => {
   try {

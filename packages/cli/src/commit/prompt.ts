@@ -18,7 +18,7 @@ export const inputCommit = async () => {
       {
         type: 'text',
         name: 'content',
-        message: '请输入Commit内容',
+        message: '请简要描述修改内容',
         validate(value) {
           console.log(value)
           if (!value) return 'Commit内容不能为空'

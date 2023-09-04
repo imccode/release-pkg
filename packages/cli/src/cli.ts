@@ -3,9 +3,9 @@ import { CAC } from 'cac'
 import { runRelease } from './release'
 import { version } from '../package.json'
 import { ReleaseVersionType } from './release/version'
-import { commandCommit } from './commit'
+import { commandCommit, modifyProjectList } from './commit'
 import { commandPublish } from './publish'
-import { projectList } from './workspaces'
+import { getProjectList } from './workspaces'
 
 const cli = new CAC('pkg-cli')
 cli.usage('命令行工具')
@@ -43,3 +43,5 @@ cli
   })
 
 cli.version(version).help().parse()
+
+getProjectList().then(res => modifyProjectList(['root', ...res.map(item => item.dir)]).then(console.log))

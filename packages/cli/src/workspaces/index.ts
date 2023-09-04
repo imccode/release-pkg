@@ -7,8 +7,8 @@ import { JsonType } from '../types'
 export interface WorkspacesPackageInfo<T extends JsonType = JsonType> {
   /** 包信息 */
   pkgInfo: T
-  /** 目录（绝对路径） */
-  absDir: string
+  /** 目录 */
+  dir: string
 }
 
 const cwd = process.cwd()
@@ -38,7 +38,7 @@ export const isWorkspaces = () => {
 }
 
 /** 获取项目列表 */
-export const projectList = async () => {
+export const getProjectList = async () => {
   try {
     const pkgJson = await readFile(resolve(cwd, 'package.json'), 'utf-8')
     const { workspaces } = JSON.parse(pkgJson)
@@ -56,7 +56,7 @@ export const projectList = async () => {
         const pkgPath = list[i]
         const pkgInfo = await getPackageInfo(pkgPath)
         if (pkgInfo && pkgInfo.private !== true) {
-          pkgList.push({ pkgInfo, absDir: resolve(cwd, pkgPath) })
+          pkgList.push({ pkgInfo, dir: pkgPath })
         }
       }
 
